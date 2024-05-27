@@ -25,4 +25,8 @@ target_link_libraries(${PROJECT_NAME}
 
         PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
+        filemanager
+        filereader
+        histogram
+        uimediator
 )

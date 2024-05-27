@@ -33,4 +33,9 @@ target_link_libraries(${PROJECT_NAME}
 
         PUBLIC
 #        Qt${QT_VERSION_MAJOR}::Core
+        fabric
+        filemanager
+        filereader
+        histogram
+        uimediator
 )

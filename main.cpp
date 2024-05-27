@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "uimediator.h"
 
 #include "readFromTxt.h"
 #include "QUrl"
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     engine.loadFromModule("WordCounter", "WordCounterMain");
+//    qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
 
 ////////////////////////////////////////////////////////////////////////
     std::map<QString, int> map;

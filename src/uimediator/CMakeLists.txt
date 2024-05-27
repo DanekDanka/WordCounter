@@ -5,6 +5,8 @@ project(uimediator LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
+        src/uimediator.cpp
+        include/uimediator.h
 )
 
 

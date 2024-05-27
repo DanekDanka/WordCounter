@@ -36,6 +36,7 @@ target_link_libraries(appWordCounter
     PRIVATE
         Qt6::Quick
         filereader
+        uimediator
 )
 
 include(GNUInstallDirs)
