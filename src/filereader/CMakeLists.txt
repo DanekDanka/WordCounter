@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(fabric LANGUAGES CXX)
+project(filereader LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
-        src/fabric.cpp
-        include/fabric.h
+        src/IFileReader.cpp
+        include/IFileReader.h
+        src/readFromTxt.cpp
+        include/readFromTxt.h
 )
 
 
@@ -25,4 +27,5 @@ target_link_libraries(${PROJECT_NAME}
 
         PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
+
 )

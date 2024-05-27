@@ -1,14 +1,9 @@
-//
-// Created by danya on 26.05.24.
-//
+#pragma once
 
-#ifndef WORDCOUNTER_CORE_H
-#define WORDCOUNTER_CORE_H
+namespace wordCounter {
 
-
-class Core {
-
-};
+    class Core {
 
 
-#endif //WORDCOUNTER_CORE_H
+    };
+}

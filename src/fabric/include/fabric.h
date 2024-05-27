@@ -1,17 +1,20 @@
+#pragma once
+
+#include "QObject"
 
 namespace wordCounter {
 
-//    enum class Object{
-//        fileManager,
-//        fileReader,
-//        histogram,
-//        uiMediator
-//    };
+    enum class Object{
+        fileManager,
+        fileReader,
+        histogram,
+        uiMediator
+    };
 
-    class IFabric {
+    class Fabric {
     public:
-        IFabric() = default;
-//        virtual
+        Fabric() = default;
+        QObject* createObject(Object object);
     };
 
 }
