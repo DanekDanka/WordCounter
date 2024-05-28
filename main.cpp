@@ -9,8 +9,7 @@
 #include "thread"
 
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -22,29 +21,43 @@ int main(int argc, char *argv[])
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    engine.loadFromModule("WordCounter", "WordCounterMain");
-//    qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
+    qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
 
-////////////////////////////////////////////////////////////////////////
+
+    engine.loadFromModule("WordCounter", "WordCounterMain");
+
+    ////////////////////////////////////////////////////////////////////////
     std::map<QString, int> map;
+    std::vector<QString> key;
+    std::vector<u_int> value;
+
     std::atomic<float> pers;
     wordCounter::ReadFromTxt reader;
-//    std::unique_lock<std::mutex> lock(wordCounter::mutex);
-//    wordCounter::conditionVariable.notify_all();
+    //    std::unique_lock<std::mutex> lock(wordCounter::mutex);
+    //    wordCounter::conditionVariable.notify_all();
     QUrl url;
     url.setPath("/home/danya/Documents/file.txt");
     reader.setFile(url);
     reader.setVocabulary(&map);
+    reader.setVocabularyKey(&key);
+    reader.setVocabularyValue(&value);
     reader.setPersentageAtomic(&pers);
 
-    auto a = std::async(&wordCounter::ReadFromTxt::read, &reader);
-//    reader.read();
-    a.wait();
+    // auto a = std::async(&wordCounter::ReadFromTxt::read, &reader);
+    // a.wait();
+    reader.read();
+    //
+    // std::cout << map.at("Некоторые");
+    // qDebug() << key.at(0) << " " << value.at(0);
 
-    std::cout << map.at("доступ");
 
-//    thr.join();
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    for (auto i = 0; i < key.size(); ++i) {
+        qDebug() << key.at(i) << " " << value.at(i);
+    }
+
+    //    thr.join();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return app.exec();
 }

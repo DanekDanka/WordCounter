@@ -5,6 +5,8 @@ project(filemanager LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
+        src/filemanager.cpp
+        include/filemanager.h
 )
 
 

@@ -1,4 +1,3 @@
-
 #include <QFile>
 #include <QDebug>
 #include "readFromTxt.h"
@@ -13,11 +12,19 @@ void ReadFromTxt::setVocabulary(std::map<QString, int> *map) {
     vocabulary = map;
 }
 
+void ReadFromTxt::setVocabularyKey(std::vector<QString> *key) {
+    vocabularyKey = key;
+}
+
+void ReadFromTxt::setVocabularyValue(std::vector<u_int> *value) {
+    vocabularyValue = value;
+}
+
 void ReadFromTxt::setPersentageAtomic(std::atomic<float> *pers) {
     persentage = pers;
 }
 
-std::atomic<float> * ReadFromTxt::progress() {
+std::atomic<float> *ReadFromTxt::progress() {
     return persentage;
 }
 
@@ -49,12 +56,31 @@ void ReadFromTxt::read() {
 
         if (ch.isSpace()) {
             if (!word.isEmpty()) {
-//                std::unique_lock<std::mutex> lock(mutex);
-//                conditionVariable.wait(lock);
+                //                std::unique_lock<std::mutex> lock(mutex);
+                //                conditionVariable.wait(lock);
                 if ((*vocabulary)[word] == 0)
                     (*vocabulary)[word] = 1;
                 else
                     (*vocabulary)[word]++;
+
+                bool stored = {false};
+                for (auto i = 0; i < vocabularyKey->size(); ++i) {
+                    if (word == vocabularyKey->at(i)) {
+                        vocabularyValue->at(i)++;
+
+                        if ((vocabularyValue->at(i) > vocabularyValue->at(i - 1)) && (i > 0)) {
+                            swap(vocabularyValue[i], vocabularyValue[i - 1]);
+                            swap(vocabularyKey[i], vocabularyKey[i - 1]);
+                        }
+                        stored = true;
+                        break;
+                    }
+                }
+                if (!stored) {
+                    vocabularyKey->push_back(word);
+                    vocabularyValue->push_back(1);
+                }
+
                 word.clear();
             }
         } else {
@@ -62,6 +88,13 @@ void ReadFromTxt::read() {
         }
     }
 
-    file.close();
+    for (auto i = 1; i < vocabularyKey->size(); ++i) {
+        if ((vocabularyValue->at(i) > vocabularyValue->at(i - 1)) && (i > 0)) {
+            swap(vocabularyValue[i], vocabularyValue[i - 1]);
+            swap(vocabularyKey[i], vocabularyKey[i - 1]);
+        }
+    }
 
+
+    file.close();
 }

@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(histogram LANGUAGES CXX)
+project(progressbar LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
-        include/histogram.h
-        src/histogram.cpp
+        src/ProgressBar.cpp
+        include/ProgressBar.h
 )
 
 
@@ -25,4 +25,5 @@ target_link_libraries(${PROJECT_NAME}
 
         PUBLIC
         Qt${QT_VERSION_MAJOR}::Core
+
 )

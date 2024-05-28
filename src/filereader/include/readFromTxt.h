@@ -27,6 +27,10 @@ namespace wordCounter {
         std::atomic<float> * progress() override;
 
         void setVocabulary(std::map<QString, int> *map) override;
+        void setVocabularyKey(std::vector<QString> *key) override;
+        void setVocabularyValue(std::vector<u_int> *value) override;
+
+
 
         void setPersentageAtomic(std::atomic<float> *pers) override;
 
@@ -35,6 +39,9 @@ namespace wordCounter {
         std::map<QString, int> *vocabulary;
         std::atomic<float> *persentage = {nullptr};
         qint64 size = {0};
+
+        std::vector<QString> *vocabularyKey;
+        std::vector<u_int> *vocabularyValue;
 
         bool count = {false};
 

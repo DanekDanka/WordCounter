@@ -1,8 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Dialogs
 
-// import Mediator 1.0
+import Mediator 1.0
 
 // import QtQuick 2.11
 // import QtQuick.Controls 2.4
@@ -20,9 +21,9 @@ Window {
 
     color: "green"
 
-    // UiMediator {
-    //     id: mediator
-    // }
+    UiMediator {
+        id: mediator
+    }
 
     ColumnLayout {
         width: root.width
@@ -33,23 +34,52 @@ Window {
             // Layout.preferredHeight: 50
 
             Button {
+                id: playButton
                 Layout.fillWidth: true
                 text: "Play"
+
+                onPressedChanged: {
+                    mediator.Play = playButton.pressed
+                }
             }
 
             Button {
+                id: pauseButton
                 Layout.fillWidth: true
                 text: "Pause"
+
+                onPressedChanged: {
+                    mediator.Pause = pauseButton.pressed
+                }
             }
 
             Button {
+                id: countinueButton
                 Layout.fillWidth: true
                 text: "Continue"
+
+                onPressedChanged: {
+                    mediator.Continue = countinueButton.pressed
+                }
             }
 
             Button {
+                id: stopButton
                 Layout.fillWidth: true
                 text: "Stop"
+
+                onPressedChanged: {
+                    mediator.Stop = stopButton.pressed
+                }
+            }
+
+            FileDialog {
+                id: fileDialog
+                title: "Please choose a file"
+
+                onAccepted: {
+                    mediator.readCalibrationFile(openFileDialog.fileUrl)
+                }
             }
 
 

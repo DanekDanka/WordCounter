@@ -15,3 +15,11 @@ using namespace wordCounter;
 std::unique_ptr<IFileReader> Fabric::createFileReader() {
     return std::make_unique<ReadFromTxt>();
 }
+
+std::unique_ptr<FileManager> Fabric::createFileManager() {
+    return std::make_unique<FileManager>();
+}
+
+std::unique_ptr<ProgressBar> Fabric::createProgressBar() {
+    return std::make_unique<ProgressBar>();
+}
