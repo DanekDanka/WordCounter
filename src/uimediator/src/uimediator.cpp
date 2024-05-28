@@ -6,11 +6,6 @@ using namespace wordCounter;
 void UiMediator::setPlay(const bool newPlay) {
     play = newPlay;
     emit playChanged();
-
-    if (play)
-        qDebug() << "TRUE";
-    else
-        qDebug() << "FALSE";
 }
 
 bool UiMediator::getPlay() const {
@@ -46,7 +41,6 @@ bool UiMediator::getStop() const {
 
 void UiMediator::setUrl(QString url) {
     this->url = QUrl(url);
-    qDebug() << url;
 }
 
 QUrl UiMediator::getUrl() {

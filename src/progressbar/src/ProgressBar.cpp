@@ -10,7 +10,7 @@ float ProgressBar::getProgress() const {
     return persentage.load();
 }
 
-std::atomic<float> *ProgressBar::getProgressPtr() {
+std::atomic<float> *ProgressBar::getPersentagePtr() {
     return &persentage;
 }
 

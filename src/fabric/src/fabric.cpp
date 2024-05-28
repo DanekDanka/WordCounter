@@ -12,6 +12,7 @@ using namespace wordCounter;
 //    }
 //}
 
+
 std::unique_ptr<IFileReader> Fabric::createFileReader() {
     return std::make_unique<ReadFromTxt>();
 }

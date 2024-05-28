@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs
+// import QtQml.StateMachine 6.7
 
 import Mediator 1.0
 
@@ -30,10 +31,50 @@ Window {
         title: "Please choose a file"
 
         onAccepted: {
-            mediator.setUrl(fileDialog.url)
-            console.log(fileDialog.url)
+            mediator.setUrl(fileDialog.currentFile)
         }
     }
+
+    // StateMachine {
+    //     id: stateMachine
+    //
+    //     State {
+    //         name: "initial"
+    //     }
+    //     State {
+    //         name: "playing"
+    //     }
+    //     State {
+    //         name: "paused"
+    //     }
+    //     State {
+    //         name: "stopped"
+    //     }
+    //
+    //     Transition {
+    //         from: "initial"
+    //         to: "playing"
+    //         onTriggered: playButton.clicked
+    //     }
+    //     Transition {
+    //         from: "playing"
+    //         to: "paused"
+    //         onTriggered: pauseButton.clicked
+    //     }
+    //     Transition {
+    //         from: "paused"
+    //         to: "playing"
+    //         onTriggered: countinueButton.clicked
+    //     }
+    //     Transition {
+    //         from: ["playing", "paused"]
+    //         to: "stopped"
+    //         onTriggered: stopButton.clicked
+    //     }
+    //
+    //     initialState: "initial"
+    // }
+
 
 
     ColumnLayout {
@@ -49,7 +90,7 @@ Window {
                 Layout.fillWidth: true
                 text: "Choose file"
 
-                onPressedChanged: {
+                onClicked: {
                     fileDialog.open()
                 }
             }
@@ -58,8 +99,9 @@ Window {
                 id: playButton
                 Layout.fillWidth: true
                 text: "Play"
-
-                onPressedChanged: {
+                enabled: stateMachine.state === "initial" || stateMachine.state === "paused"
+                onClicked: {
+                    // stateMachine.start()
                     mediator.Play = playButton.pressed
                 }
             }
@@ -68,8 +110,9 @@ Window {
                 id: pauseButton
                 Layout.fillWidth: true
                 text: "Pause"
+                enabled: stateMachine.state === "playing"
 
-                onPressedChanged: {
+                onClicked: {
                     mediator.Pause = pauseButton.pressed
                 }
             }
@@ -78,8 +121,9 @@ Window {
                 id: countinueButton
                 Layout.fillWidth: true
                 text: "Continue"
+                enabled: stateMachine.state === "paused"
 
-                onPressedChanged: {
+                onClicked: {
                     mediator.Continue = countinueButton.pressed
                 }
             }
@@ -88,8 +132,9 @@ Window {
                 id: stopButton
                 Layout.fillWidth: true
                 text: "Stop"
+                enabled: stateMachine.state === "playing" || stateMachine.state === "paused"
 
-                onPressedChanged: {
+                onClicked: {
                     mediator.Stop = stopButton.pressed
                 }
             }

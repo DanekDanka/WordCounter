@@ -7,6 +7,7 @@
 #include "iostream"
 #include "future"
 #include "thread"
+// #include "core.h"
 
 
 int main(int argc, char *argv[]) {
@@ -23,8 +24,17 @@ int main(int argc, char *argv[]) {
 
     qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
 
-
     engine.loadFromModule("WordCounter", "WordCounterMain");
+
+    // QObject *rootObject = engine.rootObjects().first();
+    // QObject *uiMediatorObject = rootObject->findChild<QObject*>("uiMediator");
+    // wordCounter::UiMediator *uiMediator = qobject_cast<wordCounter::UiMediator*>(uiMediatorObject);
+    //
+    // wordCounter::Core core(uiMediator);
+
+    // if (uiMediator) {
+        // QObject::connect(uiMediator, &wordCounter::UiMediator::playChanged, &core, &wordCounter::Core::startCount);
+    // }
 
     ////////////////////////////////////////////////////////////////////////
     std::map<QString, int> map;

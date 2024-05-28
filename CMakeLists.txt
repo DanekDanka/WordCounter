@@ -8,6 +8,8 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.5)
 
+
+
 qt_add_executable(appWordCounter
     main.cpp
 )
@@ -32,11 +34,18 @@ set_target_properties(appWordCounter PROPERTIES
 
 add_subdirectory(src)
 
+find_package(QT NAMES Qt6 COMPONENTS Core Qml REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Qml REQUIRED)
+
 target_link_libraries(appWordCounter
     PRIVATE
-        Qt6::Quick
+        Qt${QT_VERSION_MAJOR}::Quick
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Qml
+#        Qt${QT_VERSION_MAJOR}::StateMachine
         filereader
         uimediator
+        core
 )
 
 include(GNUInstallDirs)
