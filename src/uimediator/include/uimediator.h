@@ -29,7 +29,7 @@ namespace wordCounter {
         void setStop(bool const newStop);
         bool getStop() const;
 
-        Q_INVOKABLE void setUrl(QUrl url);
+        Q_INVOKABLE void setUrl(QString url);
         QUrl getUrl();
 
     signals:

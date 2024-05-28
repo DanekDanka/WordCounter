@@ -15,6 +15,9 @@ namespace wordCounter {
     private:
         Fabric fabric;
         std::unique_ptr<IFileReader> fileReader;
+        std::unique_ptr<FileManager> fileManager;
+        std::unique_ptr<ProgressBar> progressBar;
+        std::unique_ptr<Histogram> histogram;
 
     };
 }

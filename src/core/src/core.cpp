@@ -4,5 +4,8 @@
 using namespace wordCounter;
 
 void Core::init() {
-//     fileReader = fabric.createFileReader();
+     fileReader = fabric.createFileReader();
+     fileManager = fabric.createFileManager();
+     progressBar = fabric.createProgressBar();
+     histogram = fabric.createHistogram();
 }

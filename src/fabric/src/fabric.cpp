@@ -23,3 +23,7 @@ std::unique_ptr<FileManager> Fabric::createFileManager() {
 std::unique_ptr<ProgressBar> Fabric::createProgressBar() {
     return std::make_unique<ProgressBar>();
 }
+
+std::unique_ptr<Histogram> Fabric::createHistogram() {
+    return std::make_unique<Histogram>();
+}

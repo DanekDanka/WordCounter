@@ -1,6 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Layouts
-import QtQuick.Controls
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.4
 import QtQuick.Dialogs
 
 import Mediator 1.0
@@ -25,6 +25,17 @@ Window {
         id: mediator
     }
 
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a file"
+
+        onAccepted: {
+            mediator.setUrl(fileDialog.url)
+            console.log(fileDialog.url)
+        }
+    }
+
+
     ColumnLayout {
         width: root.width
         height: root.height
@@ -32,6 +43,16 @@ Window {
         RowLayout {
             Layout.fillWidth: true
             // Layout.preferredHeight: 50
+
+            Button {
+                id: chooseFile
+                Layout.fillWidth: true
+                text: "Choose file"
+
+                onPressedChanged: {
+                    fileDialog.open()
+                }
+            }
 
             Button {
                 id: playButton
@@ -73,14 +94,6 @@ Window {
                 }
             }
 
-            FileDialog {
-                id: fileDialog
-                title: "Please choose a file"
-
-                onAccepted: {
-                    mediator.readCalibrationFile(openFileDialog.fileUrl)
-                }
-            }
 
 
         }

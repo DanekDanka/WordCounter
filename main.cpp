@@ -28,35 +28,45 @@ int main(int argc, char *argv[]) {
 
     ////////////////////////////////////////////////////////////////////////
     std::map<QString, int> map;
-    std::vector<QString> key;
-    std::vector<u_int> value;
 
     std::atomic<float> pers;
     wordCounter::ReadFromTxt reader;
-    //    std::unique_lock<std::mutex> lock(wordCounter::mutex);
-    //    wordCounter::conditionVariable.notify_all();
     QUrl url;
     url.setPath("/home/danya/Documents/file.txt");
     reader.setFile(url);
     reader.setVocabulary(&map);
-    reader.setVocabularyKey(&key);
-    reader.setVocabularyValue(&value);
     reader.setPersentageAtomic(&pers);
 
+
     // auto a = std::async(&wordCounter::ReadFromTxt::read, &reader);
-    // a.wait();
-    reader.read();
-    //
-    // std::cout << map.at("Некоторые");
-    // qDebug() << key.at(0) << " " << value.at(0);
+    std::thread thr(&wordCounter::ReadFromTxt::read, &reader);
+    // reader.read();
+
+    for (int i = 0; i < 1; i ++) {        // std::this_thread::sleep_for(std::chrono::microseconds(50));
+
+        // std::unique_lock<std::mutex> lock(wordCounter::mutex);
 
 
+        wordCounter::mutex.lock();
+        std::map<QString, int> copyMap = map;
+        wordCounter::mutex.unlock();
 
-    for (auto i = 0; i < key.size(); ++i) {
-        qDebug() << key.at(i) << " " << value.at(i);
+        std::multimap<int, QString> reverseMyMap;
+        for (std::pair<QString, int> pair : copyMap) {
+            reverseMyMap.insert(std::pair<int, QString>(pair.second, pair.first));
+        }
+
+        qDebug() << i << "Reverse:\n";
+        std::multimap<int, QString>::reverse_iterator it = reverseMyMap.rbegin();
+        while (it != reverseMyMap.rend()) {
+            qDebug() << it->first << ": " << it->second << '\n';
+            ++it;
+        }
     }
 
-    //    thr.join();
+    // a.wait();
+
+    thr.join();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return app.exec();

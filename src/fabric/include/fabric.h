@@ -1,6 +1,7 @@
 #pragma once
 
 #include "filemanager.h"
+#include "histogram.h"
 #include "QObject"
 #include "IFileReader.h"
 #include "ProgressBar.h"
@@ -23,6 +24,7 @@ namespace wordCounter {
         std::unique_ptr<IFileReader> createFileReader();
         std::unique_ptr<FileManager> createFileManager();
         std::unique_ptr<ProgressBar> createProgressBar();
+        std::unique_ptr<Histogram> createHistogram();
 
     };
 

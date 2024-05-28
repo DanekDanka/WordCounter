@@ -44,8 +44,9 @@ bool UiMediator::getStop() const {
     return stop;
 }
 
-void UiMediator::setUrl(QUrl url) {
-    this->url = url;
+void UiMediator::setUrl(QString url) {
+    this->url = QUrl(url);
+    qDebug() << url;
 }
 
 QUrl UiMediator::getUrl() {

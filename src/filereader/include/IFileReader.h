@@ -18,8 +18,6 @@ namespace wordCounter {
         virtual void read() = 0;
         virtual std::atomic<float> * progress() = 0;
         virtual void setVocabulary(std::map<QString, int> *map) = 0;
-        virtual void setVocabularyKey(std::vector<QString> *key) = 0;
-        virtual void setVocabularyValue(std::vector<u_int> *value) = 0;
         virtual void setPersentageAtomic(std::atomic<float> *pers) = 0;
 
     };
