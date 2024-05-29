@@ -1,13 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "uimediator.h"
+#include "QQmlContext"
 
 #include "readFromTxt.h"
 #include "QUrl"
 #include "iostream"
 #include "future"
 #include "thread"
-// #include "core.h"
+#include "core.h"
 
 
 int main(int argc, char *argv[]) {
@@ -22,61 +23,62 @@ int main(int argc, char *argv[]) {
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
+    // qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
+    wordCounter::Core core;
+    wordCounter::UiMediator *mediator = core.getUiMediator();
+    core.init();
+
+    engine.rootContext()->setContextProperty("mediator", mediator);
 
     engine.loadFromModule("WordCounter", "WordCounterMain");
 
-    // QObject *rootObject = engine.rootObjects().first();
-    // QObject *uiMediatorObject = rootObject->findChild<QObject*>("uiMediator");
-    // wordCounter::UiMediator *uiMediator = qobject_cast<wordCounter::UiMediator*>(uiMediatorObject);
-    //
-    // wordCounter::Core core(uiMediator);
+
 
     // if (uiMediator) {
         // QObject::connect(uiMediator, &wordCounter::UiMediator::playChanged, &core, &wordCounter::Core::startCount);
     // }
 
     ////////////////////////////////////////////////////////////////////////
-    std::map<QString, int> map;
-
-    std::atomic<float> pers;
-    wordCounter::ReadFromTxt reader;
-    QUrl url;
-    url.setPath("/home/danya/Documents/file.txt");
-    reader.setFile(url);
-    reader.setVocabulary(&map);
-    reader.setPersentageAtomic(&pers);
-
-
-    // auto a = std::async(&wordCounter::ReadFromTxt::read, &reader);
-    std::thread thr(&wordCounter::ReadFromTxt::read, &reader);
-    // reader.read();
-
-    for (int i = 0; i < 1; i ++) {        // std::this_thread::sleep_for(std::chrono::microseconds(50));
-
-        // std::unique_lock<std::mutex> lock(wordCounter::mutex);
-
-
-        wordCounter::mutex.lock();
-        std::map<QString, int> copyMap = map;
-        wordCounter::mutex.unlock();
-
-        std::multimap<int, QString> reverseMyMap;
-        for (std::pair<QString, int> pair : copyMap) {
-            reverseMyMap.insert(std::pair<int, QString>(pair.second, pair.first));
-        }
-
-        qDebug() << i << "Reverse:\n";
-        std::multimap<int, QString>::reverse_iterator it = reverseMyMap.rbegin();
-        while (it != reverseMyMap.rend()) {
-            qDebug() << it->first << ": " << it->second << '\n';
-            ++it;
-        }
-    }
-
-    // a.wait();
-
-    thr.join();
+    // std::map<QString, int> map;
+    //
+    // std::atomic<float> pers;
+    // wordCounter::ReadFromTxt reader;
+    // QUrl url;
+    // url.setPath("/home/danya/Documents/file.txt");
+    // reader.setFile(url);
+    // reader.setVocabulary(&map);
+    // reader.setPersentageAtomic(&pers);
+    //
+    //
+    // // auto a = std::async(&wordCounter::ReadFromTxt::read, &reader);
+    // std::thread thr(&wordCounter::ReadFromTxt::read, &reader);
+    // // reader.read();
+    //
+    // for (int i = 0; i < 1; i ++) {        // std::this_thread::sleep_for(std::chrono::microseconds(50));
+    //
+    //     // std::unique_lock<std::mutex> lock(wordCounter::mutex);
+    //
+    //
+    //     wordCounter::mutex.lock();
+    //     std::map<QString, int> copyMap = map;
+    //     wordCounter::mutex.unlock();
+    //
+    //     std::multimap<int, QString> reverseMyMap;
+    //     for (std::pair<QString, int> pair : copyMap) {
+    //         reverseMyMap.insert(std::pair<int, QString>(pair.second, pair.first));
+    //     }
+    //
+    //     qDebug() << i << "Reverse:\n";
+    //     std::multimap<int, QString>::reverse_iterator it = reverseMyMap.rbegin();
+    //     while (it != reverseMyMap.rend()) {
+    //         qDebug() << it->first << ": " << it->second << '\n';
+    //         ++it;
+    //     }
+    // }
+    //
+    // // a.wait();
+    //
+    // thr.join();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     return app.exec();

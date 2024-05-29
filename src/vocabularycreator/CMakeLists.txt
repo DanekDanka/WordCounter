@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(fabric LANGUAGES CXX)
+project(vocabularycreator LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
-        src/fabric.cpp
-        include/fabric.h
+        src/IVocabularyCreator.cpp
+        include/IVocabularyCreator.h
+        src/VocabularyMultiMapCreator.cpp
+        include/VocabularyMultiMapCreator.h
 )
 
 
@@ -22,13 +24,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
-        Qt${QT_VERSION_MAJOR}::Core
-        filemanager
-        filereader
-        progressbar
-        uimediator
-        histogram
-        vocabularycreator
+#        core
 
         PUBLIC
+        Qt${QT_VERSION_MAJOR}::Core
 )

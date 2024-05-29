@@ -30,8 +30,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
-
-        PUBLIC
 #        Qt${QT_VERSION_MAJOR}::Core
         fabric
         filemanager
@@ -39,4 +37,7 @@ target_link_libraries(${PROJECT_NAME}
         progressbar
         uimediator
         histogram
+        vocabularycreator
+
+        PUBLIC
 )

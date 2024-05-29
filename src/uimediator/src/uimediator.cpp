@@ -4,7 +4,8 @@
 using namespace wordCounter;
 
 void UiMediator::setPlay(const bool newPlay) {
-    play = newPlay;
+    // play = newPlay;
+    play = true;
     emit playChanged();
 }
 
@@ -14,7 +15,11 @@ bool UiMediator::getPlay() const {
 
 void UiMediator::setPause(bool const newPause) {
     pause = newPause;
+    // pause = true;
+    // play = false;
+
     emit pauseChanged();
+    // emit playChanged();
 }
 
 bool UiMediator::getPause() const {
@@ -32,6 +37,8 @@ bool UiMediator::getContinue() const {
 
 void UiMediator::setStop(bool const newStop) {
     stop = newStop;
+    play = false;
+    emit playChanged();
     emit stopChanged();
 }
 
@@ -45,6 +52,11 @@ void UiMediator::setUrl(QString url) {
 
 QUrl UiMediator::getUrl() {
     return url;
+}
+
+void UiMediator::setPersentage(float persentage) {
+    this->persentage = persentage;
+    emit percentageChanged();
 }
 
 

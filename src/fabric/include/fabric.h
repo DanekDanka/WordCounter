@@ -1,30 +1,28 @@
 #pragma once
 
+#include "QObject"
 #include "filemanager.h"
 #include "histogram.h"
-#include "QObject"
 #include "IFileReader.h"
 #include "ProgressBar.h"
+#include "IVocabularyCreator.h"
 
 namespace wordCounter {
-
-//    enum class Object{
-//        fileManager,
-//        fileReader,
-//        histogram,
-//        uiMediator
-//    };
 
     class Fabric {
     public:
         Fabric() = default;
         ~Fabric() = default;
 
-//        std::unique_ptr<QObject> createObject(Object object);
-        std::unique_ptr<IFileReader> createFileReader();
-        std::unique_ptr<FileManager> createFileManager();
-        std::unique_ptr<ProgressBar> createProgressBar();
-        std::unique_ptr<Histogram> createHistogram();
+        static std::unique_ptr<IFileReader> createFileReader();
+
+        static std::unique_ptr<FileManager> createFileManager();
+
+        static std::unique_ptr<ProgressBar> createProgressBar();
+
+        static std::unique_ptr<Histogram> createHistogram();
+
+        static std::unique_ptr<IVocabularyCreator> createVocabularyCreator();
 
     };
 

@@ -12,12 +12,28 @@ void ReadFromTxt::setVocabulary(std::map<QString, int> *map) {
     vocabulary = map;
 }
 
+void ReadFromTxt::setVocabularyValue(std::vector<int> *vocabularyValue) {
+    this->vocabularyValue = vocabularyValue;
+}
+
+void ReadFromTxt::setVocabularyKey(std::vector<QString> *vocabularyKey) {
+    this->vocabularyKey = vocabularyKey;
+}
+
 void ReadFromTxt::setPersentageAtomic(std::atomic<float> *pers) {
-    persentage = pers;
+    progressCount = pers;
 }
 
 std::atomic<float> *ReadFromTxt::progress() {
-    return persentage;
+    return progressCount;
+}
+
+void ReadFromTxt::setPersentage(float *persentage) {
+    persentageCount = persentage;
+}
+
+float * ReadFromTxt::persentage() {
+    return persentageCount;
 }
 
 std::map<QString, int> *ReadFromTxt::getVocabulary() {
@@ -34,45 +50,52 @@ void ReadFromTxt::read() {
         exceptionPtr = std::current_exception();
         return;
     }
+    QString in = file.readAll();
+    size = static_cast<qint64>(in.length());
+    file.close();
+    file.open(QIODevice::ReadOnly | QFile::Text);
 
-    QTextStream stream(&file);
-    size = file.size();
     qint64 i = 0;
     QChar ch;
     QString word = "";
 
+    QTextStream stream(&file);
+    // size = file.size();
+
     while (!stream.atEnd() && !count) {
         stream >> ch;
         ++i;
-        persentage->store(i / size);
+        // progressCount->store(static_cast<float>(i) / static_cast<float>(size));
+        *persentageCount = static_cast<float>(i) / static_cast<float>(size);
+        // qDebug() << static_cast<float>(i) / static_cast<float>(size) << static_cast<float>(i) << static_cast<float>(size);
 
         if (ch.isSpace()) {
             if (!word.isEmpty()) {
 
-                mutex.lock();
+                mutexVocabulary.lock();
                 if ((*vocabulary)[word] == 0)
                     (*vocabulary)[word] = 1;
                 else
                     (*vocabulary)[word]++;
-                mutex.unlock();
 
-                // bool stored = {false};
-                // for (auto i = 0; i < vocabularyKey->size(); ++i) {
-                //     if (word == vocabularyKey->at(i)) {
-                //         vocabularyValue->at(i)++;
-                //
-                //         if ((vocabularyValue->at(i) > vocabularyValue->at(i - 1)) && (i > 0)) {
-                //             swap(vocabularyValue[i], vocabularyValue[i - 1]);
-                //             swap(vocabularyKey[i], vocabularyKey[i - 1]);
-                //         }
-                //         stored = true;
-                //         break;
-                //     }
-                // }
-                // if (!stored) {
-                //     vocabularyKey->push_back(word);
-                //     vocabularyValue->push_back(1);
-                // }
+                bool stored = {false};
+                for (auto i = 0; i < vocabularyKey->size(); ++i) {
+                    if (word == vocabularyKey->at(i)) {
+                        vocabularyValue->at(i)++;
+
+                        // if ((vocabularyValue->at(i) > vocabularyValue->at(i - 1)) && (i > 0)) {
+                        //     swap(vocabularyValue[i], vocabularyValue[i - 1]);
+                        //     swap(vocabularyKey[i], vocabularyKey[i - 1]);
+                        // }
+                        stored = true;
+                        break;
+                    }
+                }
+                if (!stored) {
+                    vocabularyKey->push_back(word);
+                    vocabularyValue->push_back(1);
+                }
+                mutexVocabulary.unlock();
 
                 word.clear();
             }

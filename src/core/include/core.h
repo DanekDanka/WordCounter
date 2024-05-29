@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+
 #include "fabric.h"
 #include "IFileReader.h"
 #include "uimediator.h"
@@ -10,24 +11,38 @@ namespace wordCounter {
         Q_OBJECT
 
     public:
-        explicit Core(UiMediator *mediator, QObject *parent = nullptr);
+        // explicit Core(UiMediator *mediator, QObject *parent = nullptr);
         explicit Core(QObject *parent = nullptr);
-        ~Core() = default;
+        ~Core() override = default;
 
+        UiMediator *getUiMediator();
         void init();
         void startCount();
 
     private:
-        Fabric fabric;
+        void createClasses();
+        void initFileReader();
+        void createVocabulary();
+
+
         std::unique_ptr<IFileReader> fileReader;
         std::unique_ptr<FileManager> fileManager;
         std::unique_ptr<ProgressBar> progressBar;
         std::unique_ptr<Histogram> histogram;
+        std::unique_ptr<IVocabularyCreator> vocabularyCreator;
 
-        std::map<QString, int> vocabulary;
-        std::atomic<float> persentage;
+        std::vector<QString> vocabularyKey;
+        std::vector<int> vocabularyValue;
 
-        UiMediator * uiMediator {nullptr};
+        std::map<QString, int> wordCounts;
+        std::multimap<int, QString> vocabulary;
+        std::atomic<float> persentage {0};
+        float persentageCount {0};
+
+        std::atomic<bool> play {false};
+        bool playingNow {false};
+
+        UiMediator uiMediator;
 
     };
 }

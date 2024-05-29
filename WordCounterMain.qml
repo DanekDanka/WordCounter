@@ -4,7 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Dialogs
 // import QtQml.StateMachine 6.7
 
-import Mediator 1.0
+// import Mediator 1.0
 
 // import QtQuick 2.11
 // import QtQuick.Controls 2.4
@@ -22,9 +22,9 @@ Window {
 
     color: "green"
 
-    UiMediator {
-        id: mediator
-    }
+    // UiMediator {
+    //     id: mediator
+    // }
 
     FileDialog {
         id: fileDialog
@@ -90,6 +90,7 @@ Window {
                 Layout.fillWidth: true
                 text: "Choose file"
 
+
                 onClicked: {
                     fileDialog.open()
                 }
@@ -145,55 +146,97 @@ Window {
 
         ProgressBar {
             Layout.fillWidth: true
-            value: 0.5
+            value: mediator.Persentage
+        }
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+
+            Text {
+                text: "Гистограмма"
+                font.pointSize: 20
+                horizontalAlignment: Text.AlignHCenter
+                width: parent.width
+            }
+
         }
 
 
-
-
-        Canvas {
-            id: histogramCanvas
-            width: 200
-            height: 200
-            Layout.fillHeight: true
-
-            property var histogramData: [5, 10, 15, 20, 25]
-            property var histogramOptions: { color: "blue" }
-
-            function drawHistogram(canvas, data, options) {
-                if (!canvas.getContext) {
-                    return;
-                }
-                var ctx = canvas.getContext('2d');
-                var width = canvas.width;
-                var height = canvas.height;
-                var barWidth = width / data.length;
-
-                ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = options.color;
-
-                for (var i = 0; i < data.length; i++) {
-                    var barHeight = (data[i] / Math.max(...data)) * height;
-                    ctx.fillRect(i * barWidth, height - barHeight, barWidth - 1, barHeight);
-                }
-            }
-
-            onPaint: {
-                if (histogramCanvas.available) {
-                    var ctx = getContext("2d");
-                    ctx.clearRect(0, 0, histogramCanvas.width, histogramCanvas.height);
-                    drawHistogram(histogramCanvas, histogramData, histogramOptions);
-                }
-            }
+        ListModel {
+            id: dataModel
+            ListElement { value: 10 }
+            ListElement { value: 30 }
+            ListElement { value: 20 }
+            ListElement { value: 40 }
+            ListElement { value: 25 }
         }
 
-        Component.onCompleted: {
-            if (histogramCanvas.available) {
-                drawHistogram(histogramCanvas, histogramData, histogramOptions);
+            Canvas {
+                id: canvas
+                anchors.fill: parent
+                onPaint: {
+                    var ctx = canvas.getContext("2d");
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    var barWidth = canvas.width / dataModel.count;
+                    for (var i = 0; i < dataModel.count; i++) {
+                        var item = dataModel.get(i);
+                        var barHeight = (canvas.height * item.value) / 100;
+
+                        ctx.fillStyle = "blue";
+                        ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 5, barHeight);
+
+                        ctx.fillStyle = "black";
+                        ctx.fillText(item.value, i * barWidth + barWidth / 2 - 5, canvas.height - barHeight - 5);
+                    }
+                }
             }
+
+
+            // Canvas {
+            //     id: histogramCanvas
+            //     width: 200
+            //     height: 200
+            //     Layout.fillHeight: true
+            //
+            //     property var histogramData: [5, 10, 15, 20, 25]
+            //     property var histogramOptions: { color: "blue" }
+            //
+            //     function drawHistogram(canvas, data, options) {
+            //         if (!canvas.getContext) {
+            //             return;
+            //         }
+            //         var ctx = canvas.getContext('2d');
+            //         var width = canvas.width;
+            //         var height = canvas.height;
+            //         var barWidth = width / data.length;
+            //
+            //         ctx.clearRect(0, 0, width, height);
+            //         ctx.fillStyle = options.color;
+            //
+            //         for (var i = 0; i < data.length; i++) {
+            //             var barHeight = (data[i] / Math.max(...data)) * height;
+            //             ctx.fillRect(i * barWidth, height - barHeight, barWidth - 1, barHeight);
+            //         }
+            //     }
+            //
+            //     onPaint: {
+            //         if (histogramCanvas.available) {
+            //             var ctx = getContext("2d");
+            //             ctx.clearRect(0, 0, histogramCanvas.width, histogramCanvas.height);
+            //             drawHistogram(histogramCanvas, histogramData, histogramOptions);
+            //         }
+            //     }
+            // }
+            //
+            // Component.onCompleted: {
+            //     if (histogramCanvas.available) {
+            //         drawHistogram(histogramCanvas, histogramData, histogramOptions);
+            //     }
+            // }
+
+
         }
 
-
-
-    }
 }

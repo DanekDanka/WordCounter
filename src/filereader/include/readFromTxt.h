@@ -7,7 +7,7 @@
 
 namespace wordCounter {
 
-    static std::mutex mutex;
+
 
     class ReadFromTxt : public IFileReader {
     Q_OBJECT
@@ -23,16 +23,28 @@ namespace wordCounter {
 
         void read() override;
 
+        void setPersentageAtomic(std::atomic<float> *pers) override;
         std::atomic<float> * progress() override;
+
+        void setPersentage(float *persentage) override;
+        float *persentage() override;
 
         void setVocabulary(std::map<QString, int> *map) override;
 
-        void setPersentageAtomic(std::atomic<float> *pers) override;
+        void setVocabularyValue(std::vector<int> *vocabularyValue) override;
+        void setVocabularyKey(std::vector<QString> *vocabularyKey) override;
+
 
     private:
         QUrl url;
         std::map<QString, int> *vocabulary;
-        std::atomic<float> *persentage = {nullptr};
+
+        std::vector<QString> *vocabularyKey;
+        std::vector<int> *vocabularyValue;
+
+        std::atomic<float> *progressCount = {nullptr};
+        float *persentageCount = {nullptr};
+
         qint64 size = {0};
 
         bool count = {false};

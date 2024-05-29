@@ -43,9 +43,16 @@ target_link_libraries(appWordCounter
         Qt${QT_VERSION_MAJOR}::Core
         Qt${QT_VERSION_MAJOR}::Qml
 #        Qt${QT_VERSION_MAJOR}::StateMachine
+        core
         filereader
         uimediator
-        core
+
+        fabric
+        filemanager
+        progressbar
+        histogram
+        vocabularycreator
+        vocabularymodel
 )
 
 include(GNUInstallDirs)
