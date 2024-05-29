@@ -21,7 +21,7 @@
 
 
 ```plantuml
-@startuml Cheme
+@startuml
 
 actor Bob
 
