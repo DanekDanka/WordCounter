@@ -19,8 +19,8 @@
 
 ## Архитектура приложения
 
-<!--
-```
+
+```plantuml
 @startuml Cheme
 
 actor Bob
@@ -54,7 +54,6 @@ rectangle "Application" {
 
 @enduml
 ```
--->
 
 ![Схема взаимодействия](./Sheme.jpg)
 
