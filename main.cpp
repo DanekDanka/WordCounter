@@ -9,7 +9,8 @@
 #include "future"
 #include "thread"
 #include "core.h"
-
+#include "VocabularyCurrentModel.h"
+// #include "vocabularymodel.h"
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
@@ -28,6 +29,14 @@ int main(int argc, char *argv[]) {
     wordCounter::UiMediator *mediator = core.getUiMediator();
     core.init();
 
+    auto *model = core.getVocabularyModel();
+    // model->addItem("Item 1", 10);
+    // model->addItem("Item 2", 30);
+    // model->addItem("Item 3", 20);
+    // model->addItem("Item 4", 40);
+    // model->addItem("Item 5", 25);
+
+    engine.rootContext()->setContextProperty("vocabularyModel", model);
     engine.rootContext()->setContextProperty("mediator", mediator);
 
     engine.loadFromModule("WordCounter", "WordCounterMain");

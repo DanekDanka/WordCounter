@@ -5,8 +5,8 @@ project(vocabularymodel LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} SHARED
-        src/vocabularymodel.cpp
-        include/vocabularymodel.h
+        include/VocabularyCurrentModel.h
+        src/VocabularyCurrentModel.cpp
 )
 
 

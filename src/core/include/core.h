@@ -1,9 +1,10 @@
 #pragma once
-#include <QObject>
 
+#include <QObject>
 #include "fabric.h"
 #include "IFileReader.h"
 #include "uimediator.h"
+#include "VocabularyCurrentModel.h"
 
 namespace wordCounter {
 
@@ -11,11 +12,12 @@ namespace wordCounter {
         Q_OBJECT
 
     public:
-        // explicit Core(UiMediator *mediator, QObject *parent = nullptr);
         explicit Core(QObject *parent = nullptr);
         ~Core() override = default;
 
         UiMediator *getUiMediator();
+        CurrentVocabularyModel *getVocabularyModel();
+
         void init();
         void startCount();
 
@@ -43,6 +45,7 @@ namespace wordCounter {
         bool playingNow {false};
 
         UiMediator uiMediator;
+        CurrentVocabularyModel vocabularyModel;
 
     };
 }

@@ -1,6 +1,6 @@
 #include "fabric.h"
 #include "readFromTxt.h"
-#include "../../vocabularycreator/include/VocabularyMultiMapCreator.h"
+#include "VocabularyMultiMapCreator.h"
 
 using namespace wordCounter;
 
@@ -23,3 +23,7 @@ std::unique_ptr<Histogram> Fabric::createHistogram() {
 std::unique_ptr<IVocabularyCreator> Fabric::createVocabularyCreator() {
     return std::make_unique<VocabularyMultiMapCreator>();
 }
+
+// std::unique_ptr<CurrentVocabularyModel> Fabric::createVocabularyModel() {
+//     return std::make_unique<CurrentVocabularyModel>();
+// }

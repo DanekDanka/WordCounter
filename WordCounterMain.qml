@@ -149,94 +149,36 @@ Window {
             value: mediator.Persentage
         }
 
-        Column {
-            anchors.centerIn: parent
-            spacing: 20
+        ListView {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.margins: 10
+            model: vocabularyModel
 
-            Text {
-                text: "Гистограмма"
-                font.pointSize: 20
-                horizontalAlignment: Text.AlignHCenter
-                width: parent.width
-            }
+            orientation: ListView.Horizontal // Make the list view horizontal
 
-        }
+            delegate: Rectangle {
+                width: root.width / 15 - 10
+                height: Math.min(value * 5, parent.height)
+                color: "steelblue"
+                border.color: "black"
+                border.width: 1
 
+                Text {
 
-        ListModel {
-            id: dataModel
-            ListElement { value: 10 }
-            ListElement { value: 30 }
-            ListElement { value: 20 }
-            ListElement { value: 40 }
-            ListElement { value: 25 }
-        }
-
-            Canvas {
-                id: canvas
-                anchors.fill: parent
-                onPaint: {
-                    var ctx = canvas.getContext("2d");
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                    var barWidth = canvas.width / dataModel.count;
-                    for (var i = 0; i < dataModel.count; i++) {
-                        var item = dataModel.get(i);
-                        var barHeight = (canvas.height * item.value) / 100;
-
-                        ctx.fillStyle = "blue";
-                        ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 5, barHeight);
-
-                        ctx.fillStyle = "black";
-                        ctx.fillText(item.value, i * barWidth + barWidth / 2 - 5, canvas.height - barHeight - 5);
-                    }
+                    text: name
+                    anchors.top: parent.bottom
+                    // anchors.horizontalCenter: parent.horizontalCenter
+                    // anchors.verticalCenter: parent.verticalCenter
+                    font.pixelSize: 14
+                    transform: Rotation { angle: 270 }
                 }
             }
 
-
-            // Canvas {
-            //     id: histogramCanvas
-            //     width: 200
-            //     height: 200
-            //     Layout.fillHeight: true
-            //
-            //     property var histogramData: [5, 10, 15, 20, 25]
-            //     property var histogramOptions: { color: "blue" }
-            //
-            //     function drawHistogram(canvas, data, options) {
-            //         if (!canvas.getContext) {
-            //             return;
-            //         }
-            //         var ctx = canvas.getContext('2d');
-            //         var width = canvas.width;
-            //         var height = canvas.height;
-            //         var barWidth = width / data.length;
-            //
-            //         ctx.clearRect(0, 0, width, height);
-            //         ctx.fillStyle = options.color;
-            //
-            //         for (var i = 0; i < data.length; i++) {
-            //             var barHeight = (data[i] / Math.max(...data)) * height;
-            //             ctx.fillRect(i * barWidth, height - barHeight, barWidth - 1, barHeight);
-            //         }
-            //     }
-            //
-            //     onPaint: {
-            //         if (histogramCanvas.available) {
-            //             var ctx = getContext("2d");
-            //             ctx.clearRect(0, 0, histogramCanvas.width, histogramCanvas.height);
-            //             drawHistogram(histogramCanvas, histogramData, histogramOptions);
-            //         }
-            //     }
-            // }
-            //
-            // Component.onCompleted: {
-            //     if (histogramCanvas.available) {
-            //         drawHistogram(histogramCanvas, histogramData, histogramOptions);
-            //     }
-            // }
-
-
+            spacing: 10 // Add some space between each bar
         }
+
+
+    }
 
 }

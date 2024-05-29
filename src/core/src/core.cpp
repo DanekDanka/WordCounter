@@ -26,6 +26,10 @@ UiMediator *Core::getUiMediator() {
     return &uiMediator;
 }
 
+CurrentVocabularyModel * Core::getVocabularyModel() {
+    return &vocabularyModel;
+}
+
 void Core::init() {
     createClasses();
     initFileReader();
@@ -34,6 +38,7 @@ void Core::init() {
 }
 
 void Core::startCount() {
+    vocabularyModel.addItem("12345", 2);
     playingNow = true;
     vocabularyKey.clear();
     vocabularyValue.clear();
@@ -77,6 +82,7 @@ void Core::createClasses() {
     progressBar = Fabric::createProgressBar();
     histogram = Fabric::createHistogram();
     vocabularyCreator = Fabric::createVocabularyCreator();
+    // vocabularyModel = Fabric::createVocabularyModelCreator();
 }
 
 void Core::initFileReader() {

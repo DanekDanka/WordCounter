@@ -29,6 +29,7 @@ target_link_libraries(${PROJECT_NAME}
         uimediator
         histogram
         vocabularycreator
+        vocabularymodel
 
         PUBLIC
 )
