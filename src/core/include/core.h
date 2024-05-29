@@ -21,6 +21,9 @@ namespace wordCounter {
         void init();
         void startCount();
 
+    signals:
+        void vocabularyCreated();
+
     private:
         void createClasses();
         void initFileReader();
@@ -43,6 +46,7 @@ namespace wordCounter {
 
         std::atomic<bool> play {false};
         bool playingNow {false};
+        QUrl url;
 
         UiMediator uiMediator;
         CurrentVocabularyModel vocabularyModel;

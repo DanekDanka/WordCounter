@@ -23,6 +23,9 @@ namespace wordCounter {
         void addItem(const QString &name, int value);
 
         Q_INVOKABLE QVariantMap get(int index) const;
+        Q_INVOKABLE int maxCount() const;
+
+        void clearData();
 
     private:
         QVector<DataItem> m_items;

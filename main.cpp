@@ -1,7 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "uimediator.h"
 #include "QQmlContext"
+
+#include "uimediator.h"
 
 #include "readFromTxt.h"
 #include "QUrl"
@@ -24,7 +25,6 @@ int main(int argc, char *argv[]) {
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    // qmlRegisterType<wordCounter::UiMediator>("Mediator", 1, 0, "UiMediator");
     wordCounter::Core core;
     wordCounter::UiMediator *mediator = core.getUiMediator();
     core.init();
@@ -40,8 +40,6 @@ int main(int argc, char *argv[]) {
     engine.rootContext()->setContextProperty("mediator", mediator);
 
     engine.loadFromModule("WordCounter", "WordCounterMain");
-
-
 
     // if (uiMediator) {
         // QObject::connect(uiMediator, &wordCounter::UiMediator::playChanged, &core, &wordCounter::Core::startCount);

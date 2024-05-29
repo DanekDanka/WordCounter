@@ -4,8 +4,8 @@
 
 using namespace wordCounter;
 
-void ReadFromTxt::setFile(QUrl &url) {
-    this->url = url;
+void ReadFromTxt::setFile(QString &url) {
+    this->url.setPath(url);
 }
 
 void ReadFromTxt::setVocabulary(std::map<QString, int> *map) {
@@ -18,6 +18,10 @@ void ReadFromTxt::setVocabularyValue(std::vector<int> *vocabularyValue) {
 
 void ReadFromTxt::setVocabularyKey(std::vector<QString> *vocabularyKey) {
     this->vocabularyKey = vocabularyKey;
+}
+
+void ReadFromTxt::setAtomicCount(std::atomic<bool> *newCount) {
+    count = newCount;
 }
 
 void ReadFromTxt::setPersentageAtomic(std::atomic<float> *pers) {
@@ -41,7 +45,7 @@ std::map<QString, int> *ReadFromTxt::getVocabulary() {
 }
 
 void ReadFromTxt::read() {
-    QFile file(url.url());
+    QFile file(url.path());
 
     try {
         file.open(QIODevice::ReadOnly | QFile::Text);
@@ -50,6 +54,7 @@ void ReadFromTxt::read() {
         exceptionPtr = std::current_exception();
         return;
     }
+    qDebug() << file.size();
     QString in = file.readAll();
     size = static_cast<qint64>(in.length());
     file.close();
@@ -62,7 +67,7 @@ void ReadFromTxt::read() {
     QTextStream stream(&file);
     // size = file.size();
 
-    while (!stream.atEnd() && !count) {
+    while (!stream.atEnd() && count->load()) {
         stream >> ch;
         ++i;
         // progressCount->store(static_cast<float>(i) / static_cast<float>(size));
@@ -73,10 +78,10 @@ void ReadFromTxt::read() {
             if (!word.isEmpty()) {
 
                 mutexVocabulary.lock();
-                if ((*vocabulary)[word] == 0)
-                    (*vocabulary)[word] = 1;
-                else
-                    (*vocabulary)[word]++;
+                // if ((*vocabulary)[word] == 0)
+                //     (*vocabulary)[word] = 1;
+                // else
+                //     (*vocabulary)[word]++;
 
                 bool stored = {false};
                 for (auto i = 0; i < vocabularyKey->size(); ++i) {
@@ -103,6 +108,8 @@ void ReadFromTxt::read() {
             word.append(ch);
         }
     }
+
+    qDebug() << i << file.size();
 
     // for (auto i = 1; i < vocabularyKey->size(); ++i) {
     //     if ((vocabularyValue->at(i) > vocabularyValue->at(i - 1)) && (i > 0)) {

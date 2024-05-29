@@ -17,7 +17,7 @@ namespace wordCounter {
 
         ~ReadFromTxt() override = default;
 
-        void setFile(QUrl &url) override;
+        void setFile(QString &url) override;
 
         std::map<QString, int> *getVocabulary() override;
 
@@ -33,6 +33,7 @@ namespace wordCounter {
 
         void setVocabularyValue(std::vector<int> *vocabularyValue) override;
         void setVocabularyKey(std::vector<QString> *vocabularyKey) override;
+        void setAtomicCount(std::atomic<bool> *newCount) override;
 
 
     private:
@@ -47,7 +48,7 @@ namespace wordCounter {
 
         qint64 size = {0};
 
-        bool count = {false};
+        std::atomic<bool> *count = {nullptr};
 
         std::exception_ptr exceptionPtr = {nullptr};
 

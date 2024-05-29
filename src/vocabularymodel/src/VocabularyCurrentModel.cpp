@@ -36,6 +36,9 @@ QHash<int, QByteArray> CurrentVocabularyModel::roleNames() const {
 }
 
 void CurrentVocabularyModel::addItem(const QString &name, int value) {
+    if (name == nullptr)
+        return;
+
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_items.append({name, value});
     endInsertRows();
@@ -49,4 +52,17 @@ QVariantMap CurrentVocabularyModel::get(int index) const {
     item["name"] = m_items.at(index).name;
     item["value"] = m_items.at(index).value;
     return item;
+}
+
+int CurrentVocabularyModel::maxCount() const {
+    if (m_items.empty())
+        return 0;
+
+    return m_items.at(0).value;
+}
+
+void CurrentVocabularyModel::clearData() {
+    beginResetModel();
+    m_items.clear();
+    endResetModel();
 }

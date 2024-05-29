@@ -11,7 +11,7 @@ namespace wordCounter {
         Q_PROPERTY(bool Pause READ getPause WRITE setPause NOTIFY pauseChanged)
         Q_PROPERTY(bool Continue READ getContinue WRITE setContinue NOTIFY continueChanged)
         Q_PROPERTY(bool Stop READ getStop WRITE setStop NOTIFY stopChanged)
-        Q_PROPERTY(float Persentage MEMBER persentage NOTIFY percentageChanged)
+        Q_PROPERTY(float persentage READ getPersentage WRITE setPersentage NOTIFY percentageChanged)
 
         Q_OBJECT
     public:
@@ -33,14 +33,18 @@ namespace wordCounter {
         Q_INVOKABLE void setUrl(QString url);
         QUrl getUrl();
 
+        Q_INVOKABLE float getPersentage() const;
         void setPersentage(float persentage);
+
+        float persentage;           //TODO убрать
 
     signals:
         void playChanged();
         void pauseChanged();
         void continueChanged();
         void stopChanged();
-        void percentageChanged();
+        void percentageChanged(float progress);
+        void urlChanged();
 
     private:
         bool play;
@@ -50,7 +54,6 @@ namespace wordCounter {
 
         QUrl url;
 
-        float persentage;
 
     };
 

@@ -14,7 +14,7 @@ namespace wordCounter {
         IFileReader() = default;
         virtual ~IFileReader() = default;
 
-        virtual void setFile(QUrl &url) = 0;
+        virtual void setFile(QString &url) = 0;
         virtual std::map<QString, int>* getVocabulary() = 0; //TODO убрать потом
         virtual void read() = 0;
         virtual std::atomic<float> * progress() = 0;
@@ -25,6 +25,7 @@ namespace wordCounter {
         virtual void setVocabulary(std::map<QString, int> *map) = 0;
         virtual void setVocabularyValue(std::vector<int> *vocabularyValue) = 0;
         virtual void setVocabularyKey(std::vector<QString> *vocabularyKey) = 0;
+        virtual void setAtomicCount(std::atomic<bool> *newCount) = 0;
 
 
         virtual void setPersentageAtomic(std::atomic<float> *pers) = 0;

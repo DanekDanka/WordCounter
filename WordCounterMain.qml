@@ -4,6 +4,10 @@ import QtQuick.Controls 2.4
 import QtQuick.Dialogs
 // import QtQml.StateMachine 6.7
 
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+// import QtQml.StateMachine 1.15
+
 // import Mediator 1.0
 
 // import QtQuick 2.11
@@ -34,6 +38,7 @@ Window {
             mediator.setUrl(fileDialog.currentFile)
         }
     }
+
 
     // StateMachine {
     //     id: stateMachine
@@ -146,10 +151,13 @@ Window {
 
         ProgressBar {
             Layout.fillWidth: true
-            value: mediator.Persentage
+            value: mediator.persentage
         }
 
+        // Text:{text: Number(mediator.persentage = 1).toString() }
+
         ListView {
+            id: listView
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.margins: 10
@@ -158,20 +166,28 @@ Window {
             orientation: ListView.Horizontal // Make the list view horizontal
 
             delegate: Rectangle {
-                width: root.width / 15 - 10
-                height: Math.min(value * 5, parent.height)
+                width: root.width / 15 - 11
+                height: value * (listView.height / vocabularyModel.maxCount())
                 color: "steelblue"
                 border.color: "black"
                 border.width: 1
 
                 Text {
-
-                    text: name
+                    text: " " + name
+                    transform: Rotation { angle: 270 }
                     anchors.top: parent.bottom
                     // anchors.horizontalCenter: parent.horizontalCenter
                     // anchors.verticalCenter: parent.verticalCenter
                     font.pixelSize: 14
-                    transform: Rotation { angle: 270 }
+                }
+
+                Text {
+                    text: value
+                    // transform: Rotation { angle: 270 }
+                    anchors.top: parent.top
+                    // anchors.horizontalCenter: parent.horizontalCenter
+                    // anchors.verticalCenter: parent.verticalCenter
+                    font.pixelSize: 14
                 }
             }
 

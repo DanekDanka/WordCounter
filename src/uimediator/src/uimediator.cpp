@@ -48,15 +48,20 @@ bool UiMediator::getStop() const {
 
 void UiMediator::setUrl(QString url) {
     this->url = QUrl(url);
+    emit urlChanged();
 }
 
 QUrl UiMediator::getUrl() {
     return url;
 }
 
+float UiMediator::getPersentage() const {
+    return persentage;
+}
+
 void UiMediator::setPersentage(float persentage) {
     this->persentage = persentage;
-    emit percentageChanged();
+    emit percentageChanged(persentage);
 }
 
 
