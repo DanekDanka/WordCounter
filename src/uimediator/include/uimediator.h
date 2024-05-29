@@ -36,7 +36,6 @@ namespace wordCounter {
         Q_INVOKABLE float getPersentage() const;
         void setPersentage(float persentage);
 
-        float persentage;           //TODO убрать
 
     signals:
         void playChanged();
@@ -51,6 +50,7 @@ namespace wordCounter {
         bool pause;
         bool uicontinue;
         bool stop;
+        float persentage;
 
         QUrl url;
 

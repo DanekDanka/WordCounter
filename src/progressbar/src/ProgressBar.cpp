@@ -2,15 +2,13 @@
 
 using namespace wordCounter;
 
-void ProgressBar::setProgress(float newPersentage) {
-    persentage.store(newPersentage);
+ProgressBar::~ProgressBar() = default;
+
+float ProgressBar::getPersentage() const {
+    return persentage;
 }
 
-float ProgressBar::getProgress() const {
-    return persentage.load();
+void ProgressBar::setPersentage(float persentage) {
+    this->persentage = persentage;
+    emit percentageChanged(persentage);
 }
-
-std::atomic<float> *ProgressBar::getPersentagePtr() {
-    return &persentage;
-}
-

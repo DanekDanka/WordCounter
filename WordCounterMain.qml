@@ -6,6 +6,7 @@ import QtQuick.Dialogs
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+// import MyProgressBar 1.0
 // import QtQml.StateMachine 1.15
 
 // import Mediator 1.0
@@ -28,6 +29,10 @@ Window {
 
     // UiMediator {
     //     id: mediator
+    // }
+
+    // Bar {
+    //     id: progressBar
     // }
 
     FileDialog {
@@ -152,6 +157,7 @@ Window {
         ProgressBar {
             Layout.fillWidth: true
             value: mediator.persentage
+            // value: Core.persentage
         }
 
         // Text:{text: Number(mediator.persentage = 1).toString() }

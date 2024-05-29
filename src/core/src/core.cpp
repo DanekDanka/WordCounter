@@ -4,7 +4,6 @@
 #include <thread>
 #include "readFromTxt.h"
 #include "uimediator.h"
-#include "QThread"
 
 #include "QDebug"
 
@@ -15,8 +14,6 @@ using namespace wordCounter;
 Core::Core(QObject *parent) : QObject(parent) {
     connect(&uiMediator, &UiMediator::playChanged,
             [=]() {
-                uiMediator.setPersentage(0.5);
-
                 play.store(uiMediator.getPlay());
 
                 if (play.load() == true && !playingNow)
@@ -99,25 +96,21 @@ void Core::init() {
     createClasses();
     initFileReader();
 
-    // uiMediator.setPersentage(persentage.load());
+    // uiMediator.setPersentage(0.5);
+    uiMediator.setPersentage(persentage.load());
 }
 
 void Core::startCount() {
-    uiMediator.setPersentage(0.5);
     playingNow = true;
     vocabularyKey.clear();
     vocabularyValue.clear();
 
     std::thread thr(&IFileReader::read, fileReader.get());
-
-
-    // QThread thr;
-    // thr.start(&IFileReader::read, fileReader.get());
     // fileReader->read();
     thr.detach(); //TODO убрать
 
     std::atomic_bool &m = play;//TODO исправить на true
-    // std::thread vocabularyCounter([this, &m]() {
+    std::thread vocabularyCounter([this, &m]() {
         while (m.load() == true) {
             // std::this_thread::sleep_for(std::chrono::microseconds(10)); //TODO возможно убрать
 
@@ -126,21 +119,20 @@ void Core::startCount() {
 
             emit vocabularyCreated();
 
-            // mutexPersentage.lock();
-            // // uiMediator.setPersentage(persentageCount);
-            // float f = *fileReader->persentage();
-            // uiMediator.setPersentage(f);
-            // mutexPersentage.unlock();
+            mutexPersentage.lock();
+            float f = *fileReader->persentage();
+            uiMediator.setPersentage(f);
+            mutexPersentage.unlock();
 
             mutexVocabulary.unlock();
         }
-    // });
-    // vocabularyCounter.detach();
+    });
+    vocabularyCounter.detach();
 
-    mutexPersentage.lock();
-    float f = *fileReader->persentage();
-    uiMediator.setPersentage(f);
-    mutexPersentage.unlock();
+    // mutexPersentage.lock();
+    // float f = *fileReader->persentage();
+    // uiMediator.setPersentage(f);
+    // mutexPersentage.unlock();
 
     // thr.join();
 

@@ -1,19 +1,26 @@
 #pragma once
 #include <atomic>
+#include <QObject>
 
 
 namespace wordCounter {
-    class ProgressBar {
+    class ProgressBar : public QObject {
+        Q_PROPERTY(float persentage READ getPersentage WRITE setPersentage NOTIFY percentageChanged)
+
+    Q_OBJECT
+
     public:
         ProgressBar() = default;
-        ~ProgressBar() = default;
+        ~ProgressBar() override;
 
-        void setProgress(float newPersentage);
-        float getProgress() const;
-        std::atomic<float> *getPersentagePtr();
+        Q_INVOKABLE float getPersentage() const;
+        void setPersentage(float persentage);
+
+    signals:
+        void percentageChanged(float progress);
 
     private:
-        std::atomic<float> persentage;
+        float persentage;
 
     };
 }

@@ -7,18 +7,20 @@
 #include "VocabularyCurrentModel.h"
 
 namespace wordCounter {
-
     class Core : public QObject {
         Q_OBJECT
 
     public:
         explicit Core(QObject *parent = nullptr);
+
         ~Core() override = default;
 
         UiMediator *getUiMediator();
+
         CurrentVocabularyModel *getVocabularyModel();
 
         void init();
+
         void startCount();
 
     signals:
@@ -26,7 +28,9 @@ namespace wordCounter {
 
     private:
         void createClasses();
+
         void initFileReader();
+
         void createVocabulary();
 
 
@@ -50,6 +54,5 @@ namespace wordCounter {
 
         UiMediator uiMediator;
         CurrentVocabularyModel vocabularyModel;
-
     };
 }

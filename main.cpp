@@ -36,8 +36,11 @@ int main(int argc, char *argv[]) {
     // model->addItem("Item 4", 40);
     // model->addItem("Item 5", 25);
 
+    // qmlRegisterType<wordCounter::ProgressBar>("MyProgressBar", 1, 0, "Bar");
+
     engine.rootContext()->setContextProperty("vocabularyModel", model);
     engine.rootContext()->setContextProperty("mediator", mediator);
+    engine.rootContext()->setContextProperty("Core", &core);
 
     engine.loadFromModule("WordCounter", "WordCounterMain");
 
