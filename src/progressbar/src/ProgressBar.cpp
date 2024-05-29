@@ -2,7 +2,8 @@
 
 using namespace wordCounter;
 
-ProgressBar::~ProgressBar() = default;
+ProgressBar::ProgressBar(QObject *parent) : QObject(parent) {
+}
 
 float ProgressBar::getPersentage() const {
     return persentage;

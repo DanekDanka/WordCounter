@@ -11,9 +11,6 @@ add_library(${PROJECT_NAME} SHARED
         include/readFromTxt.h
 )
 
-
-#generate_export_header(${PROJECT_NAME})
-
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 

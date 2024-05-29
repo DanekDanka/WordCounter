@@ -10,8 +10,8 @@ namespace wordCounter {
     Q_OBJECT
 
     public:
-        ProgressBar() = default;
-        ~ProgressBar() override;
+        explicit ProgressBar(QObject *parent = nullptr);
+        ~ProgressBar() override = default;
 
         Q_INVOKABLE float getPersentage() const;
         void setPersentage(float persentage);

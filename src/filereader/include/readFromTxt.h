@@ -7,8 +7,6 @@
 
 namespace wordCounter {
 
-
-
     class ReadFromTxt : public IFileReader {
     Q_OBJECT
 

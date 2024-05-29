@@ -15,8 +15,8 @@ namespace wordCounter {
 
         Q_OBJECT
     public:
-        UiMediator() = default;
-        ~UiMediator() = default;
+        explicit UiMediator(QObject *parent = nullptr);
+        ~UiMediator() override = default;
 
         void setPlay(bool const newPlay);
         bool getPlay() const;

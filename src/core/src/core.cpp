@@ -41,25 +41,17 @@ Core::Core(QObject *parent) : QObject(parent) {
             [=]() {
                 url = uiMediator.getUrl();
                 auto str = url.path();
-                // url.setPath(uiMediator.getUrl());
                 fileReader->setFile(str);
                 qDebug() << url.path();
             });
 
     connect(this, &Core::vocabularyCreated,
             [=]() {
-
-                // mutexPersentage.lock();
-                // // uiMediator.setPersentage(persentageCount);
-                // uiMediator.setPersentage(*fileReader->persentage());
-                // mutexPersentage.unlock();
-
                 if (vocabulary.empty())
                     return;
 
                 vocabularyModel.clearData();
                 auto iterator = vocabulary.rbegin();
-                // mutexVocabulary.lock();
                 for (int i = 0; i < 15 && i < vocabulary.size(); ++i) {
                     QString srt = iterator->second;
                     int a = iterator->first;
@@ -71,17 +63,8 @@ Core::Core(QObject *parent) : QObject(parent) {
                     play.store(false);
                     playingNow = false;
                 }
-                // mutexVocabulary.unlock();
             });
 
-    // connect(this, &Core::vocabularyCreated,
-    //         [=]() {
-    //             mutexPersentage.lock();
-    //             // uiMediator.setPersentage(persentageCount);
-    //             float f = *fileReader->persentage();
-    //             uiMediator.setPersentage(f);
-    //             mutexPersentage.unlock();
-    //         });
 }
 
 UiMediator *Core::getUiMediator() {
@@ -95,8 +78,6 @@ CurrentVocabularyModel *Core::getVocabularyModel() {
 void Core::init() {
     createClasses();
     initFileReader();
-
-    // uiMediator.setPersentage(0.5);
     uiMediator.setPersentage(persentage.load());
 }
 
@@ -106,14 +87,11 @@ void Core::startCount() {
     vocabularyValue.clear();
 
     std::thread thr(&IFileReader::read, fileReader.get());
-    // fileReader->read();
-    thr.detach(); //TODO убрать
+    thr.detach();
 
-    std::atomic_bool &m = play;//TODO исправить на true
+    std::atomic_bool &m = play;
     std::thread vocabularyCounter([this, &m]() {
         while (m.load() == true) {
-            // std::this_thread::sleep_for(std::chrono::microseconds(10)); //TODO возможно убрать
-
             mutexVocabulary.lock();
             createVocabulary();
 
@@ -129,34 +107,6 @@ void Core::startCount() {
     });
     vocabularyCounter.detach();
 
-    // mutexPersentage.lock();
-    // float f = *fileReader->persentage();
-    // uiMediator.setPersentage(f);
-    // mutexPersentage.unlock();
-
-    // thr.join();
-
-    // float per = persentage.load();
-
-    // uiMediator.setPersentage(persentageCount);
-
-
-    // auto iterator = vocabulary.rbegin();
-    // for (int i = 0; i < 15; ++i) {
-    //     vocabularyModel.addItem(iterator->second, iterator->first);
-    //     ++iterator;
-    // }
-
-    // while (play.load()) {
-    //     std::cout << "Reverse:\n";
-    //     auto iterator = vocabulary.rbegin();
-    //     while (iterator != vocabulary.rend()) {
-    //         mutex.lock();
-    //         std::cout << iterator->first << ": " << iterator->second.toStdString() << '\n';
-    //         ++iterator;
-    //         mutex.unlock();
-    //     }
-    // }
 }
 
 void Core::createClasses() {
@@ -165,7 +115,6 @@ void Core::createClasses() {
     progressBar = Fabric::createProgressBar();
     histogram = Fabric::createHistogram();
     vocabularyCreator = Fabric::createVocabularyCreator();
-    // vocabularyModel = Fabric::createVocabularyModelCreator();
 }
 
 void Core::initFileReader() {
@@ -180,20 +129,12 @@ void Core::initFileReader() {
 
     fileReader->setPersentageAtomic(&persentage);
     fileReader->setPersentage(&persentageCount);
-    QString str = "/home/danya/Documents/text.txt"; //TODO убрать
-    // qDebug() << url.path();
-    fileReader->setFile(str);
 }
 
 void Core::createVocabulary() {
     vocabulary.clear();
     vocabularyCreator->setVocabulary(&vocabulary);
-    // vocabularyCreator->setWordCounts(&wordCounts);
-
     vocabularyCreator->setVocabularyKey(&vocabularyKey);
     vocabularyCreator->setVocabularyValue(&vocabularyValue);
-
-    // mutexVocabulary.lock();
     vocabularyCreator->createVocabulary();
-    // mutexVocabulary.unlock();
 }

@@ -11,8 +11,5 @@ void Histogram::countHistogram() {
     std::array<int, 15> value;
     std::array<QString, 15> key;
 
-    // foreach (vocabulary) {
-    return;
-    // }
 }
 

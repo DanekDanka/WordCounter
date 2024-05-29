@@ -12,8 +12,6 @@ add_library(${PROJECT_NAME} SHARED
 )
 
 
-#generate_export_header(${PROJECT_NAME})
-
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core REQUIRED)
 
@@ -24,7 +22,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
-#        core
 
         PUBLIC
         Qt${QT_VERSION_MAJOR}::Core

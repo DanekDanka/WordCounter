@@ -9,8 +9,6 @@ namespace wordCounter {
         IVocabularyCreator() = default;
         virtual ~IVocabularyCreator() = default;
 
-        virtual void setWordCounts(std::map<QString, int> *inputMap) = 0;
-
         virtual void setVocabularyKey(std::vector<QString> *vocabularyKey) = 0;
         virtual void setVocabularyValue(std::vector<int> *vocabularyValue) = 0;
 

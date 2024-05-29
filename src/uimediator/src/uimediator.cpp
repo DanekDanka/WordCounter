@@ -3,6 +3,9 @@
 
 using namespace wordCounter;
 
+UiMediator::UiMediator(QObject *parent) : QObject(parent) {
+}
+
 void UiMediator::setPlay(const bool newPlay) {
     // play = newPlay;
     play = true;
@@ -63,6 +66,3 @@ void UiMediator::setPersentage(float persentage) {
     this->persentage = persentage;
     emit percentageChanged(persentage);
 }
-
-
-//UiMediator:

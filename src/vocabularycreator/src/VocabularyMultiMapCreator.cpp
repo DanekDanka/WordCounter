@@ -7,10 +7,6 @@ using namespace wordCounter;
 VocabularyMultiMapCreator::VocabularyMultiMapCreator() {
 }
 
-void VocabularyMultiMapCreator::setWordCounts(std::map<QString, int> *inputMap) {
-    // this->inputMap = inputMap;
-}
-
 void VocabularyMultiMapCreator::setVocabularyKey(std::vector<QString> *vocabularyKey) {
     this->vocabularyKey = vocabularyKey;
 }
