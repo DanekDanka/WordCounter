@@ -20,7 +20,8 @@
 ## Архитектура приложения
 
 ```
-@startuml
+@startuml Cheme
+
 actor Bob
 
 rectangle QML {
