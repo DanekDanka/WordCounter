@@ -20,6 +20,7 @@
 ## Архитектура приложения
 
 <!--
+```
 @startuml Cheme
 
 actor Bob
@@ -52,6 +53,7 @@ rectangle "Application" {
 }
 
 @enduml
+```
 -->
 
 ![Схема взаимодействия](./Sheme.jpg)
